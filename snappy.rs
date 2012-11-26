@@ -66,11 +66,17 @@ fn uncompress(src: &[u8]) -> Option<~[u8]> unsafe {
 #[cfg(test)]
 mod tests {
   #[test]
-  fn test() {
+  fn valid() {
     let d: ~[u8] = ~[0xdeu8, 0xadu8, 0xd0u8, 0x0du8];
     let c = compress(d);
     assert(validate_compressed_buffer(c));
     let r = option::unwrap(uncompress(c));
     assert(r == d);
+  }
+  #[test]
+  fn invalid() {
+    let d: ~[u8] = ~[0, 0, 0, 0];
+    assert(!validate_compressed_buffer(d));
+    assert(uncompress(d).is_none());
   }
 }
