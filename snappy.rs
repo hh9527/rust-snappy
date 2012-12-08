@@ -53,12 +53,12 @@ pub fn uncompress(src: &[u8]) -> Option<~[u8]> unsafe {
   let pdst = vec::raw::to_ptr(dst);
 
   let r = snappy_uncompress(psrc, srclen, pdst, addr_of(&dstlen));
-  assert(r == 0 || r == 1); // SNAPPY_BUFFER_TOO_SMALL should never occur
 
   if r == 0 {
     vec::truncate(&mut dst, dstlen as uint);
     Some(dst)
   } else {
+    assert(r == 1); // SNAPPY_BUFFER_TOO_SMALL should never occur
     None // SNAPPY_INVALID_INPUT
   }
 }
