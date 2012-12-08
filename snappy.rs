@@ -1,19 +1,19 @@
 extern mod std;
 
 extern mod snappy {
-  fn snappy_compress(input: *u8,
+  fn snappy_compress(input: *const u8,
                      input_length: size_t,
                      compressed: *u8,
                      compressed_length: *size_t) -> c_int;
-  fn snappy_uncompress(compressed: *u8,
+  fn snappy_uncompress(compressed: *const u8,
                        compressed_length: size_t,
                        uncompressed: *u8,
                        uncompressed_length: *size_t) -> c_int;
   fn snappy_max_compressed_length(source_length: size_t) -> size_t;
-  fn snappy_uncompressed_length(compressed: *u8,
+  fn snappy_uncompressed_length(compressed: *const u8,
                                 compressed_length: size_t,
                                 result: *size_t) -> c_int;
-  fn snappy_validate_compressed_buffer(compressed: *u8,
+  fn snappy_validate_compressed_buffer(compressed: *const u8,
                                        compressed_length: size_t) -> c_int;
 }
 
