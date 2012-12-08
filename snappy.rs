@@ -32,13 +32,14 @@ pub fn compress(src: &[u8]) -> ~[u8] unsafe {
   let psrc = vec::raw::to_ptr(src);
 
   let dstlen = snappy_max_compressed_length(srclen);
-  let dst = vec::to_mut(vec::from_elem(dstlen as uint, 0u8));
+  let mut dst = vec::from_elem(dstlen as uint, 0u8);
   let pdst = vec::raw::to_ptr(dst);
 
   let r = snappy_compress(psrc, srclen, pdst, addr_of(&dstlen));
   assert(r == 0); // SNAPPY_BUFFER_TOO_SMALL should never occur
 
-  vec::slice(dst, 0, dstlen as uint)
+  vec::truncate(&mut dst, dstlen as uint);
+  dst
 }
 
 pub fn uncompress(src: &[u8]) -> Option<~[u8]> unsafe {
@@ -48,14 +49,15 @@ pub fn uncompress(src: &[u8]) -> Option<~[u8]> unsafe {
   let dstlen: size_t = 0;
   snappy_uncompressed_length(psrc, srclen, addr_of(&dstlen));
 
-  let dst = vec::to_mut(vec::from_elem(dstlen as uint, 0u8));
+  let mut dst = vec::from_elem(dstlen as uint, 0u8);
   let pdst = vec::raw::to_ptr(dst);
 
   let r = snappy_uncompress(psrc, srclen, pdst, addr_of(&dstlen));
   assert(r == 0 || r == 1); // SNAPPY_BUFFER_TOO_SMALL should never occur
 
   if r == 0 {
-    Some(vec::slice(dst, 0, dstlen as uint))
+    vec::truncate(&mut dst, dstlen as uint);
+    Some(dst)
   } else {
     None // SNAPPY_INVALID_INPUT
   }
