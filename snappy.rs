@@ -1,6 +1,6 @@
 extern mod std;
 
-extern mod snappy {
+extern "C" mod snappy {
   fn snappy_compress(input: *const u8,
                      input_length: size_t,
                      compressed: *u8,
@@ -36,7 +36,7 @@ pub fn compress(src: &[u8]) -> ~[u8] unsafe {
   let pdst = vec::raw::to_ptr(dst);
 
   let r = snappy_compress(psrc, srclen, pdst, addr_of(&dstlen));
-  assert(r == 0); // SNAPPY_BUFFER_TOO_SMALL should never occur
+  assert r == 0; // SNAPPY_BUFFER_TOO_SMALL should never occur
 
   vec::truncate(&mut dst, dstlen as uint);
   dst
@@ -58,7 +58,7 @@ pub fn uncompress(src: &[u8]) -> Option<~[u8]> unsafe {
     vec::truncate(&mut dst, dstlen as uint);
     Some(dst)
   } else {
-    assert(r == 1); // SNAPPY_BUFFER_TOO_SMALL should never occur
+    assert r == 1; // SNAPPY_BUFFER_TOO_SMALL should never occur
     None // SNAPPY_INVALID_INPUT
   }
 }
@@ -69,14 +69,14 @@ mod tests {
   fn valid() {
     let d: ~[u8] = ~[0xdeu8, 0xadu8, 0xd0u8, 0x0du8];
     let c = compress(d);
-    assert(validate_compressed_buffer(c));
+    assert validate_compressed_buffer(c);
     let r = option::unwrap(uncompress(c));
-    assert(r == d);
+    assert r == d;
   }
   #[test]
   fn invalid() {
     let d: ~[u8] = ~[0, 0, 0, 0];
-    assert(!validate_compressed_buffer(d));
-    assert(uncompress(d).is_none());
+    assert !validate_compressed_buffer(d);
+    assert uncompress(d).is_none();
   }
 }
