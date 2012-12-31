@@ -22,12 +22,12 @@ use libc::size_t;
 use ptr::addr_of;
 use snappy::*;
 
-pub fn validate_compressed_buffer(src: &[u8]) -> bool unsafe {
+pub pure fn validate_compressed_buffer(src: &[u8]) -> bool unsafe {
   snappy_validate_compressed_buffer(vec::raw::to_ptr(src),
                                     vec::len(src) as size_t) == 0
 }
 
-pub fn compress(src: &[u8]) -> ~[u8] unsafe {
+pub pure fn compress(src: &[u8]) -> ~[u8] unsafe {
   let srclen = vec::len(src) as size_t;
   let psrc = vec::raw::to_ptr(src);
 
@@ -42,7 +42,7 @@ pub fn compress(src: &[u8]) -> ~[u8] unsafe {
   dst
 }
 
-pub fn uncompress(src: &[u8]) -> Option<~[u8]> unsafe {
+pub pure fn uncompress(src: &[u8]) -> Option<~[u8]> unsafe {
   let srclen = vec::len(src) as size_t;
   let psrc = vec::raw::to_ptr(src);
 
@@ -73,6 +73,7 @@ mod tests {
     let r = option::unwrap(uncompress(c));
     assert r == d;
   }
+
   #[test]
   fn invalid() {
     let d: ~[u8] = ~[0, 0, 0, 0];
