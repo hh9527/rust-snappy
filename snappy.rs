@@ -24,11 +24,11 @@ use snappy::*;
 
 pub pure fn validate_compressed_buffer(src: &[u8]) -> bool unsafe {
   snappy_validate_compressed_buffer(vec::raw::to_ptr(src),
-                                    vec::len(src) as size_t) == 0
+                                    src.len() as size_t) == 0
 }
 
 pub pure fn compress(src: &[u8]) -> ~[u8] unsafe {
-  let srclen = vec::len(src) as size_t;
+  let srclen = src.len() as size_t;
   let psrc = vec::raw::to_ptr(src);
 
   let dstlen = snappy_max_compressed_length(srclen);
@@ -38,12 +38,12 @@ pub pure fn compress(src: &[u8]) -> ~[u8] unsafe {
   let r = snappy_compress(psrc, srclen, pdst, addr_of(&dstlen));
   assert r == 0; // SNAPPY_BUFFER_TOO_SMALL should never occur
 
-  vec::truncate(&mut dst, dstlen as uint);
+  dst.truncate(dstlen as uint);
   dst
 }
 
 pub pure fn uncompress(src: &[u8]) -> Option<~[u8]> unsafe {
-  let srclen = vec::len(src) as size_t;
+  let srclen = src.len() as size_t;
   let psrc = vec::raw::to_ptr(src);
 
   let dstlen: size_t = 0;
@@ -55,7 +55,7 @@ pub pure fn uncompress(src: &[u8]) -> Option<~[u8]> unsafe {
   let r = snappy_uncompress(psrc, srclen, pdst, addr_of(&dstlen));
 
   if r == 0 {
-    vec::truncate(&mut dst, dstlen as uint);
+    dst.truncate(dstlen as uint);
     Some(dst)
   } else {
     assert r == 1; // SNAPPY_BUFFER_TOO_SMALL should never occur
