@@ -40,7 +40,7 @@ pub pure fn compress(src: &[u8]) -> ~[u8] unsafe {
   let psrc = vec::raw::to_ptr(src);
 
   let dstlen = snappy_max_compressed_length(srclen);
-  let mut dst = vec::from_elem(dstlen as uint, 0u8);
+  let mut dst = vec::from_elem(dstlen as uint, 0);
   let pdst = vec::raw::to_mut_ptr(dst);
 
   let r = snappy_compress(psrc, srclen, pdst, mut_addr_of(&dstlen));
@@ -57,7 +57,7 @@ pub pure fn uncompress(src: &[u8]) -> Option<~[u8]> unsafe {
   let dstlen: size_t = 0;
   snappy_uncompressed_length(psrc, srclen, mut_addr_of(&dstlen));
 
-  let mut dst = vec::from_elem(dstlen as uint, 0u8);
+  let mut dst = vec::from_elem(dstlen as uint, 0);
   let pdst = vec::raw::to_mut_ptr(dst);
 
   let r = snappy_uncompress(psrc, srclen, pdst, mut_addr_of(&dstlen));
@@ -75,7 +75,7 @@ pub pure fn uncompress(src: &[u8]) -> Option<~[u8]> unsafe {
 mod tests {
   #[test]
   fn valid() {
-    let d: ~[u8] = ~[0xdeu8, 0xadu8, 0xd0u8, 0x0du8];
+    let d = ~[0xde, 0xad, 0xd0, 0x0d];
     let c = compress(d);
     assert validate_compressed_buffer(c);
     assert uncompress(c) == Some(d);
@@ -83,7 +83,7 @@ mod tests {
 
   #[test]
   fn invalid() {
-    let d: ~[u8] = ~[0, 0, 0, 0];
+    let d = ~[0, 0, 0, 0];
     assert !validate_compressed_buffer(d);
     assert uncompress(d).is_none();
   }
