@@ -27,7 +27,6 @@ extern "C" mod snappy {
 }
 
 use core::libc::{c_int, size_t};
-use core::ptr::mut_addr_of;
 use snappy::*;
 
 pub pure fn validate_compressed_buffer(src: &[u8]) -> bool {
@@ -42,11 +41,11 @@ pub pure fn compress(src: &[u8]) -> ~[u8] {
         let srclen = src.len() as size_t;
         let psrc = vec::raw::to_ptr(src);
 
-        let dstlen = snappy_max_compressed_length(srclen);
+        let mut dstlen = snappy_max_compressed_length(srclen);
         let mut dst = vec::from_elem(dstlen as uint, 0);
         let pdst = vec::raw::to_mut_ptr(dst);
 
-        let r = snappy_compress(psrc, srclen, pdst, mut_addr_of(&dstlen));
+        let r = snappy_compress(psrc, srclen, pdst, &mut dstlen);
         assert r == 0; // SNAPPY_BUFFER_TOO_SMALL should never occur
 
         dst.truncate(dstlen as uint);
@@ -59,13 +58,13 @@ pub pure fn uncompress(src: &[u8]) -> Option<~[u8]> {
         let srclen = src.len() as size_t;
         let psrc = vec::raw::to_ptr(src);
 
-        let dstlen: size_t = 0;
-        snappy_uncompressed_length(psrc, srclen, mut_addr_of(&dstlen));
+        let mut dstlen: size_t = 0;
+        snappy_uncompressed_length(psrc, srclen, &mut dstlen);
 
         let mut dst = vec::from_elem(dstlen as uint, 0);
         let pdst = vec::raw::to_mut_ptr(dst);
 
-        let r = snappy_uncompress(psrc, srclen, pdst, mut_addr_of(&dstlen));
+        let r = snappy_uncompress(psrc, srclen, pdst, &mut dstlen);
 
         if r == 0 {
             dst.truncate(dstlen as uint);
