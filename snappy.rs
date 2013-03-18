@@ -1,5 +1,5 @@
 #[link(name = "snappy",
-       vers = "0.1",
+       vers = "0.1.0",
        uuid = "17d57f36-462f-49c8-a3e1-109a7a4296c8",
        url = "https://github.com/thestinger/rust-snappy")];
 
