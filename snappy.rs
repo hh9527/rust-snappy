@@ -29,14 +29,14 @@ extern "C" mod snappy {
 use core::libc::{c_int, size_t};
 use snappy::*;
 
-pub pure fn validate_compressed_buffer(src: &[u8]) -> bool {
+pub fn validate_compressed_buffer(src: &[u8]) -> bool {
     unsafe {
         snappy_validate_compressed_buffer(vec::raw::to_ptr(src),
                                           src.len() as size_t) == 0
     }
 }
 
-pub pure fn compress(src: &[u8]) -> ~[u8] {
+pub fn compress(src: &[u8]) -> ~[u8] {
     unsafe {
         let srclen = src.len() as size_t;
         let psrc = vec::raw::to_ptr(src);
@@ -53,7 +53,7 @@ pub pure fn compress(src: &[u8]) -> ~[u8] {
     }
 }
 
-pub pure fn uncompress(src: &[u8]) -> Option<~[u8]> {
+pub fn uncompress(src: &[u8]) -> Option<~[u8]> {
     unsafe {
         let srclen = src.len() as size_t;
         let psrc = vec::raw::to_ptr(src);
