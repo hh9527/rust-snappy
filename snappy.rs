@@ -9,7 +9,10 @@
 
 extern mod std;
 
-extern "C" mod snappy {
+use core::libc::{c_int, size_t};
+
+#[link_args = "-lsnappy"]
+extern "C" {
     fn snappy_compress(input: *const u8,
                        input_length: size_t,
                        compressed: *mut u8,
@@ -25,9 +28,6 @@ extern "C" mod snappy {
     fn snappy_validate_compressed_buffer(compressed: *const u8,
                                          compressed_length: size_t) -> c_int;
 }
-
-use core::libc::{c_int, size_t};
-use snappy::*;
 
 pub fn validate_compressed_buffer(src: &[u8]) -> bool {
     unsafe {
