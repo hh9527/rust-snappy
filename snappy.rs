@@ -46,7 +46,7 @@ pub fn compress(src: &[u8]) -> ~[u8] {
         let pdst = vec::raw::to_mut_ptr(dst);
 
         let r = snappy_compress(psrc, srclen, pdst, &mut dstlen);
-        fail_unless!(r == 0); // SNAPPY_BUFFER_TOO_SMALL should never occur
+        assert!(r == 0); // SNAPPY_BUFFER_TOO_SMALL should never occur
 
         dst.truncate(dstlen as uint);
         dst
@@ -70,7 +70,7 @@ pub fn uncompress(src: &[u8]) -> Option<~[u8]> {
             dst.truncate(dstlen as uint);
             Some(dst)
         } else {
-            fail_unless!(r == 1); // SNAPPY_BUFFER_TOO_SMALL should never occur
+            assert!(r == 1); // SNAPPY_BUFFER_TOO_SMALL should never occur
             None // SNAPPY_INVALID_INPUT
         }
     }
@@ -84,14 +84,14 @@ mod tests {
     fn valid() {
         let d = ~[0xde, 0xad, 0xd0, 0x0d];
         let c = compress(d);
-        fail_unless!(validate_compressed_buffer(c));
-        fail_unless!(uncompress(c) == Some(d));
+        assert!(validate_compressed_buffer(c));
+        assert!(uncompress(c) == Some(d));
     }
 
     #[test]
     fn invalid() {
         let d = ~[0, 0, 0, 0];
-        fail_unless!(!validate_compressed_buffer(d));
-        fail_unless!(uncompress(d).is_none());
+        assert!(!validate_compressed_buffer(d));
+        assert!(uncompress(d).is_none());
     }
 }
