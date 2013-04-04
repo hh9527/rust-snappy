@@ -7,8 +7,6 @@
 #[license = "MIT"];
 #[crate_type = "lib"];
 
-extern mod std;
-
 use core::libc::{c_int, size_t};
 
 #[link_args = "-lsnappy"]
