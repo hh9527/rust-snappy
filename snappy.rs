@@ -10,7 +10,7 @@
 use core::libc::{c_int, size_t};
 
 #[link_args = "-lsnappy"]
-extern "C" {
+extern {
     fn snappy_compress(input: *u8,
                        input_length: size_t,
                        compressed: *mut u8,
@@ -42,7 +42,7 @@ pub fn compress(src: &[u8]) -> ~[u8] {
         let mut dst = vec::with_capacity(dstlen as uint);
         let pdst = vec::raw::to_mut_ptr(dst);
 
-        let r = snappy_compress(psrc, srclen, pdst, &mut dstlen);
+        snappy_compress(psrc, srclen, pdst, &mut dstlen);
         vec::raw::set_len(&mut dst, dstlen as uint);
         dst
     }
@@ -59,9 +59,7 @@ pub fn uncompress(src: &[u8]) -> Option<~[u8]> {
         let mut dst = vec::with_capacity(dstlen as uint);
         let pdst = vec::raw::to_mut_ptr(dst);
 
-        let r = snappy_uncompress(psrc, srclen, pdst, &mut dstlen);
-
-        if r == 0 {
+        if snappy_uncompress(psrc, srclen, pdst, &mut dstlen) == 0 {
             vec::raw::set_len(&mut dst, dstlen as uint);
             Some(dst)
         } else {
