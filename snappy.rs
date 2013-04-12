@@ -39,13 +39,13 @@ pub fn compress(src: &[u8]) -> ~[u8] {
         let psrc = vec::raw::to_ptr(src);
 
         let mut dstlen = snappy_max_compressed_length(srclen);
-        let mut dst = vec::from_elem(dstlen as uint, 0);
+        let mut dst = vec::with_capacity(dstlen as uint);
         let pdst = vec::raw::to_mut_ptr(dst);
 
         let r = snappy_compress(psrc, srclen, pdst, &mut dstlen);
         assert!(r == 0); // SNAPPY_BUFFER_TOO_SMALL should never occur
 
-        dst.truncate(dstlen as uint);
+        vec::raw::set_len(&mut dst, dstlen as uint);
         dst
     }
 }
@@ -58,13 +58,13 @@ pub fn uncompress(src: &[u8]) -> Option<~[u8]> {
         let mut dstlen: size_t = 0;
         snappy_uncompressed_length(psrc, srclen, &mut dstlen);
 
-        let mut dst = vec::from_elem(dstlen as uint, 0);
+        let mut dst = vec::with_capacity(dstlen as uint);
         let pdst = vec::raw::to_mut_ptr(dst);
 
         let r = snappy_uncompress(psrc, srclen, pdst, &mut dstlen);
 
         if r == 0 {
-            dst.truncate(dstlen as uint);
+            vec::raw::set_len(&mut dst, dstlen as uint);
             Some(dst)
         } else {
             assert!(r == 1); // SNAPPY_BUFFER_TOO_SMALL should never occur
