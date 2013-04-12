@@ -43,8 +43,6 @@ pub fn compress(src: &[u8]) -> ~[u8] {
         let pdst = vec::raw::to_mut_ptr(dst);
 
         let r = snappy_compress(psrc, srclen, pdst, &mut dstlen);
-        assert!(r == 0); // SNAPPY_BUFFER_TOO_SMALL should never occur
-
         vec::raw::set_len(&mut dst, dstlen as uint);
         dst
     }
@@ -67,7 +65,6 @@ pub fn uncompress(src: &[u8]) -> Option<~[u8]> {
             vec::raw::set_len(&mut dst, dstlen as uint);
             Some(dst)
         } else {
-            assert!(r == 1); // SNAPPY_BUFFER_TOO_SMALL should never occur
             None // SNAPPY_INVALID_INPUT
         }
     }
