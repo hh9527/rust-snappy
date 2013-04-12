@@ -92,4 +92,14 @@ mod tests {
         assert!(!validate_compressed_buffer(d));
         assert!(uncompress(d).is_none());
     }
+
+    #[test]
+    fn empty() {
+        let d: ~[u8] = ~[];
+        assert!(!validate_compressed_buffer(d));
+        assert!(uncompress(d).is_none());
+        let c = compress(d);
+        assert!(validate_compressed_buffer(c));
+        assert!(uncompress(c) == Some(d));
+    }
 }
