@@ -29,8 +29,7 @@ extern "C" {
 
 pub fn validate_compressed_buffer(src: &[u8]) -> bool {
     unsafe {
-        snappy_validate_compressed_buffer(vec::raw::to_ptr(src),
-                                          src.len() as size_t) == 0
+        snappy_validate_compressed_buffer(vec::raw::to_ptr(src), src.len() as size_t) == 0
     }
 }
 
