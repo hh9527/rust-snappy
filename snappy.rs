@@ -7,7 +7,7 @@
 #[license = "MIT"];
 #[crate_type = "lib"];
 
-use core::libc::{c_int, size_t};
+use std::libc::{c_int, size_t};
 
 #[link_args = "-lsnappy"]
 extern {
