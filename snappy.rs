@@ -8,6 +8,7 @@
 #[crate_type = "lib"];
 
 use std::libc::{c_int, size_t};
+use std::vec;
 
 #[link_args = "-lsnappy"]
 extern {
