@@ -28,12 +28,14 @@ extern {
                                          compressed_length: size_t) -> c_int;
 }
 
+#[fixed_stack_segment]
 pub fn validate_compressed_buffer(src: &[u8]) -> bool {
     unsafe {
         snappy_validate_compressed_buffer(vec::raw::to_ptr(src), src.len() as size_t) == 0
     }
 }
 
+#[fixed_stack_segment]
 pub fn compress(src: &[u8]) -> ~[u8] {
     unsafe {
         let srclen = src.len() as size_t;
@@ -49,6 +51,7 @@ pub fn compress(src: &[u8]) -> ~[u8] {
     }
 }
 
+#[fixed_stack_segment]
 pub fn uncompress(src: &[u8]) -> Option<~[u8]> {
     unsafe {
         let srclen = src.len() as size_t;
