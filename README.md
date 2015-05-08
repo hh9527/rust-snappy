@@ -1,9 +1,11 @@
 Snappy
 ------------
 
-Forked from [https://github.com/thestinger/rust-snappy]
+[ Forked from https://github.com/thestinger/rust-snappy ]
 
-Snappy Bindings as written in the [The Official Rust Book](https://doc.rust-lang.org/book/ffi.html)
+Snappy bindings for Rust as written in the [The Official Rust Book](https://doc.rust-lang.org/book/ffi.html)
+
+It didn't exist on crates.io, and I needed to use it as a crate!
 
 [Documentation](https://jeffbelgum.github.io/snappy/snappy/)
 
