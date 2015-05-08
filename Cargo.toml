@@ -3,5 +3,11 @@ name = "snappy"
 version = "0.2.0"
 authors = ["Daniel Micay <danielmicay@gmail.com>", "Jeff Belgum <jeffbelgum@gmail.com>"]
 
+repository = "https://github.com/JeffBelgum/rust-snappy"
+documentation = "https://jeffbelgum.github.io/snappy/snappy/"
+homepage = "https://github.com/JeffBelgum/rust-snappy"
+
+license = "MIT"
+
 [dependencies]
 libc = "0.1.7"
