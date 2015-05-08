@@ -1,14 +1,16 @@
 [package]
+
 name = "snappy"
-description = "Rust bindings to the Google compression library, snappy. Taken from the Rust Official Book: FFI section"
 version = "0.2.0"
 authors = ["Daniel Micay <danielmicay@gmail.com>", "Jeff Belgum <jeffbelgum@gmail.com>"]
-
+license = "MIT"
 repository = "https://github.com/JeffBelgum/rust-snappy"
 documentation = "https://jeffbelgum.github.io/snappy/snappy/"
 homepage = "https://github.com/JeffBelgum/rust-snappy"
-
-license = "MIT"
+description = """
+Rust bindings to the Google compression library, snappy.
+Explained in Rust Official Book: FFI section
+"""
 
 [dependencies]
 libc = "0.1.7"
