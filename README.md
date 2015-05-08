@@ -22,3 +22,9 @@ and this to your crate root:
 ```rust
 extern crate snappy;
 ```
+
+Installing Snappy
+-----------------
+
+The Snappy C++ library can be installed on Mac OS X using homebrew ```brew
+install snappy```
