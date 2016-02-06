@@ -1,8 +1,10 @@
 language: rust
 sudo: false
-before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq libsnappy1 libsnappy-dev
+addons:
+  apt:
+    packages:
+      - libsnappy1
+      - libsnappy-dev
 script:
   - cargo build --verbose
   - cargo test --verbose
