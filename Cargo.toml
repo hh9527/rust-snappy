@@ -1,16 +1,17 @@
 [package]
-
 name = "snappy"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["Daniel Micay <danielmicay@gmail.com>", "Jeff Belgum <jeffbelgum@gmail.com>"]
 license = "MIT"
 repository = "https://github.com/JeffBelgum/rust-snappy"
 documentation = "https://jeffbelgum.github.io/snappy/snappy/"
 homepage = "https://github.com/JeffBelgum/rust-snappy"
-description = """
-Rust bindings to the Google compression library, snappy.
-Explained in Rust Official Book: FFI section
-"""
+description = "Rust bindings to the Google compression library 'snappy'"
+links = "snappy"
+build = "build.rs"
 
 [dependencies]
-libc = "0.1.7"
+libc = "0.2"
+
+[build-dependencies]
+pkg-config = "0.3"
