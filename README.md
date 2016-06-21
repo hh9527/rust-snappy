@@ -39,3 +39,16 @@ Installing Snappy
   itself and statically link against it.  (This behavior can be
   enforced by an `export SNAPPY_SYS_STATIC_FROM_SOURCE=1` prior to
   `cargo build`.)
+
+Building
+--------
+
+The Snappy C++ library is also optionally bundled as a submodule. A
+
+```
+git submodule update --init
+```
+
+will fetch a copy of the library for local compilation. This can will
+then be used if the c++ library cannot be found on your system or
+if `SNAPPY_SYS_STATIC_FROM_SOURCE` is set to `1`.
