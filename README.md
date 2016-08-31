@@ -5,9 +5,7 @@ Snappy
 
 [ Originally forked from https://github.com/thestinger/rust-snappy ]
 
-Snappy bindings for Rust (as written in the [The Official Rust Book](https://doc.rust-lang.org/book/ffi.html).)
-
-[Documentation](https://jeffbelgum.github.io/snappy/snappy/)
+[Documentation](https://docs.rs/snappy/)
 
 Usage
 -----
