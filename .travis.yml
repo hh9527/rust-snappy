@@ -1,10 +1,5 @@
 language: rust
 sudo: false
-addons:
-  apt:
-    packages:
-      - libsnappy1
-      - libsnappy-dev
 script:
   - cargo build --verbose
   - cargo test --verbose
